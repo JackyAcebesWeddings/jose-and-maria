@@ -63,7 +63,11 @@
       "Joakim Cotejo",
       "Kent Flores"
     ],
-    "best_man": "Orven Noel Seville"
+    "best_man": "Orven Noel Seville",
+    "flower_girls": "No Data",
+    "ring_bearer": "No Data",
+    "coin_bearer": "No Data",
+    "bible_bearer": "No Data"
   },
 
   "sponsors": {
@@ -74,7 +78,11 @@
       "Mrs. Virginia Narvasa",
       "Mrs. Cristina Ytable"
     ],
-    "secondary_sponsors": "No Data"
+    "secondary_sponsors": {
+      "candle": "No Data",
+      "veil": "No Data",
+      "cord": "No Data"
+    }
   },
 
   "story": {
@@ -142,9 +150,14 @@
       "story.how_we_met",
       "story.proposal",
       "story.quote",
-      "sponsors.secondary_sponsors",
+      "sponsors.secondary_sponsors (candle, veil, cord)",
+      "entourage.flower_girls",
+      "entourage.ring_bearer",
+      "entourage.coin_bearer",
+      "entourage.bible_bearer",
       "palette_colors[].hex"
     ],
+    "wizard_gap": "The registration sheet has no columns for secondary sponsors or the flower girl / ring, coin and bible bearer roles. These are standard in a Filipino Catholic ceremony, so the couple was never asked rather than having declined. The keys are placeholders awaiting one entourage conversation with the couple.",
     "conflicts": [
       "Sheet column \"Color Palette\" reads \"Not sure yet\" while \"Dress Motif\" gives three colors. Per CLAUDE.md these are different things: palette/palette_colors here hold the DRESS MOTIF (guest dress code, §8.4 swatches). The website theme remains undecided."
     ]
