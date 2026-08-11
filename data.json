@@ -18,6 +18,8 @@
   ],
   "dress_note": "We would love to see you in your Semi Formal attire that suits in our colour motif. We kindly ask our guests to avoid wearing striped patterns. This will help us keep the overall look of our celebration beautiful and cohesive.",
 
+  "color_palette_answer": "Not sure yet",
+
   "theme": "No Data",
   "hero_template": "No Data",
   "rsvp_template": "No Data",
@@ -159,7 +161,7 @@
     ],
     "wizard_gap": "The registration sheet has no columns for secondary sponsors or the flower girl / ring, coin and bible bearer roles. These are standard in a Filipino Catholic ceremony, so the couple was never asked rather than having declined. The keys are placeholders awaiting one entourage conversation with the couple.",
     "conflicts": [
-      "Sheet column \"Color Palette\" reads \"Not sure yet\" while \"Dress Motif\" gives three colors. Per CLAUDE.md these are different things: palette/palette_colors here hold the DRESS MOTIF (guest dress code, §8.4 swatches). The website theme remains undecided."
+      "Sheet column \"Color Palette\" reads \"Not sure yet\" (preserved verbatim in color_palette_answer) while \"Dress Motif\" gives three colors. Per CLAUDE.md these are different things: palette/palette_colors here hold the DRESS MOTIF (guest dress code, §8.4 swatches). The website theme remains undecided."
     ]
   }
 }
