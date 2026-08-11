@@ -1,20 +1,167 @@
 {
   "couple_names": "Jose Marie Cotejo and Maria Ivy Orozco",
+  "partner_1": "Jose Marie",
+  "partner_2": "Maria Ivy",
   "wedding_date": "2026-12-28",
   "subdomain": "jose-and-maria",
   "site_url": "https://jose-and-maria.jackyacebesweddings.com",
   "custom_domain": "jose-and-maria.jackyacebesweddings.com",
-  "palette": null,
-  "palette_colors": [],
-  "theme": null,
-  "hero_template": null,
-  "rsvp_template": null,
-  "gifts_design": null,
-  "location": null,
-  "timeline": null,
-  "entourage": null,
-  "sponsors": null,
-  "story": null,
-  "addons": null,
-  "submitted_at": "2026-08-11T03:05:36.623Z"
+
+  "hashtag": "No Data",
+  "welcome_message": "Together with our families, we warmly invite you to celebrate our wedding",
+
+  "palette": "Maroon/Burgundy, Dusty Rose, Navy Blue",
+  "palette_colors": [
+    { "name": "Maroon/Burgundy", "hex": "No Data" },
+    { "name": "Dusty Rose", "hex": "No Data" },
+    { "name": "Navy Blue", "hex": "No Data" }
+  ],
+  "dress_note": "We would love to see you in your Semi Formal attire that suits in our colour motif. We kindly ask our guests to avoid wearing striped patterns. This will help us keep the overall look of our celebration beautiful and cohesive.",
+
+  "color_palette_answer": "Not sure yet",
+
+  "theme": "No Data",
+  "hero_template": "No Data",
+  "rsvp_template": "No Data",
+  "gifts_design": "No Data",
+  "addons": "No Data",
+
+  "location": {
+    "venue_city": "No Data",
+    "events": [
+      {
+        "name": "Ceremony",
+        "time": "1:30 PM",
+        "venue": "The Archdiocesan Shrine and Parish of Our Lady of Guadalupe de Cebu",
+        "address": "Labra Street, Barangay Guadalupe, Cebu City, Philippines, 6000",
+        "map_url": "No Data"
+      },
+      {
+        "name": "Reception",
+        "time": "5:00 PM",
+        "venue": "No Data",
+        "address": "No Data",
+        "map_url": "No Data"
+      }
+    ]
+  },
+
+  "timeline": [
+    { "time": "1:30 PM", "label": "Ceremony" },
+    { "time": "5:00 PM", "label": "Reception" }
+  ],
+
+  "entourage": {
+    "bridesmaids": [
+      "Vicky Marie Apas",
+      "Beverly Lapiña",
+      "Marigen Bismanos",
+      "Mikay Haru"
+    ],
+    "maid_of_honour": "Ma. Chrissariene Orozco",
+    "matron_of_honour": "Joy Divine Aydaon-Benitez",
+    "groomsmen": [
+      "Dave Canucot",
+      "Joakim Cotejo",
+      "Kent Flores"
+    ],
+    "best_man": "Orven Noel Seville",
+    "flower_girls": "No Data",
+    "ring_bearer": "No Data",
+    "coin_bearer": "No Data",
+    "bible_bearer": "No Data"
+  },
+
+  "sponsors": {
+    "principal_sponsors": [
+      "Mr. Adriane Beltran & Mrs. Julia Jeneffer Beltran",
+      "Mr. Norman Delator & Mrs. Ruth Delator",
+      "Mr. Lorence Rivera & Mrs. Arlene Rivera",
+      "Mrs. Virginia Narvasa",
+      "Mrs. Cristina Ytable"
+    ],
+    "secondary_sponsors": {
+      "candle": "No Data",
+      "veil": "No Data",
+      "cord": "No Data"
+    }
+  },
+
+  "story": {
+    "how_we_met": "No Data",
+    "proposal": "No Data",
+    "quote": "No Data",
+    "milestones": [
+      {
+        "year": "2016",
+        "title": "Where It All Began",
+        "text": "Our story began in 2016 on the 7th floor of our college. We were in different groups of friends when one of Maria Ivy’s friends introduced Jose Marie to her. Maria Ivy happily started a conversation, while Jose Marie quietly listened—mostly because he couldn’t understand a word of Bisaya! Seeing an opportunity to help, Maria Ivy offered to teach him Bisaya… in exchange for Pancit Canton and C2. And apparently, that was a deal he couldn’t refuse.\n\nAfter that day, Jose Marie started hanging out with Maria Ivy and her friends more often. What began as a simple introduction, a little language lesson, and a very important Pancit Canton and C2 arrangement slowly turned into a beautiful friendship—and eventually, a love story.\n\nNeither of them knew it at the time, but that little introduction on the 7th floor was the beginning of their forever."
+      }
+    ]
+  },
+
+  "rsvp": {
+    "max_guests": "1",
+    "rsvp_deadline": "No Data",
+    "meal_options": "No Data"
+  },
+
+  "registry": {
+    "note": "our presence at our wedding is the greatest gift we could ever ask for.\n\nIf you would like to bless us with a gift, we would be truly grateful for a monetary gift as we will be travelling back to Australia after our celebration and have limited space to bring physical gifts with us.\n\nThank you for celebrating with us, for your love, prayers, and blessings.",
+    "links": [
+      { "label": "Gcash", "url": "09653196120" }
+    ]
+  },
+
+  "faq": [
+    {
+      "question": "Are children welcome at the wedding?",
+      "answer": "We kindly request that our wedding be adults-only, except for children who have been specifically invited to be part of our ceremony or have a special role on our day.\n\nThank you so much for your understanding and consideration. We can’t wait to celebrate with you!"
+    }
+  ],
+
+  "contact": {
+    "email": "mariaivyorozco0396@gmail.com",
+    "phone": "639653196120"
+  },
+
+  "notes": "No Data",
+
+  "submitted_at": "2026-08-11T03:05:36.623Z",
+
+  "_source": {
+    "populated_from": "Google Sheet \"Wedding Registrations\" (id 1ZB4kc4tgc5KtiZsiAVbuCrcA7ep23arJd46JCHkP-OA), row timestamped 8/11/2026 15:10:10",
+    "sheet_row_timestamp": "2026-08-11T15:10:10+08:00",
+    "note": "The sheet row is NEWER than submitted_at (11:05 AM PHT wizard submission) and is the authoritative content source for this build.",
+    "no_data_marker": "\"No Data\" marks a value the source had no content for. Render these as \"To be announced\" on the site per CLAUDE.md, or omit the section.",
+    "blank_in_sheet": [
+      "hashtag",
+      "location.venue_city",
+      "location.events[0].map_url",
+      "location.events[1] (reception venue/address/map — Order of the Day lists a 5:00 PM Reception but no venue was given)",
+      "rsvp.rsvp_deadline",
+      "rsvp.meal_options",
+      "notes"
+    ],
+    "no_column_in_sheet": [
+      "theme",
+      "hero_template",
+      "rsvp_template",
+      "gifts_design",
+      "addons",
+      "story.how_we_met",
+      "story.proposal",
+      "story.quote",
+      "sponsors.secondary_sponsors (candle, veil, cord)",
+      "entourage.flower_girls",
+      "entourage.ring_bearer",
+      "entourage.coin_bearer",
+      "entourage.bible_bearer",
+      "palette_colors[].hex"
+    ],
+    "wizard_gap": "The registration sheet has no columns for secondary sponsors or the flower girl / ring, coin and bible bearer roles. These are standard in a Filipino Catholic ceremony, so the couple was never asked rather than having declined. The keys are placeholders awaiting one entourage conversation with the couple.",
+    "conflicts": [
+      "Sheet column \"Color Palette\" reads \"Not sure yet\" (preserved verbatim in color_palette_answer) while \"Dress Motif\" gives three colors. Per CLAUDE.md these are different things: palette/palette_colors here hold the DRESS MOTIF (guest dress code, §8.4 swatches). The website theme remains undecided."
+    ]
+  }
 }
