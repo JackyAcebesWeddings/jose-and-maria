@@ -842,3 +842,93 @@ costs nothing until a guest starts playback.
 Natalie Grant — the source filename says "NewSong and Natalie Grant", but the
 displayed title credits only Natalie Grant. Confirm with the couple which they
 want shown.
+
+### Music: start on any interaction · smaller mobile bar — 2026-08-13
+
+Two changes, both to the existing player. **This supersedes the starter
+description in the 2026-08-12 music entry and the sizing in the "floating disc
+→ full mini player" entry**; every other rule in those entries still holds and
+was re-verified below.
+
+**1. It now starts on the guest's first interaction anywhere, not just a click.**
+
+The old starter was a single bubble-phase `click` listener on `document`. Two
+ways a guest could interact with the page and still get silence:
+
+- **Any handler calling `stopPropagation()`** before the event reached
+  `document` swallowed it. Nothing on the page does that today, but the
+  lightbox, the mosaic tiles and the RSVP form are all click-heavy, so it was
+  one future handler away from breaking.
+- **Taps that never resolve into a click** — a drag on a gallery tile, a swipe
+  in the lightbox, a press that ends slightly off-target.
+
+Now bound in the **capture phase** on `pointerdown`, `touchend`, `click` and
+`keydown`, so it fires before any page handler can stop it.
+
+⚠️ **`starting` is load-bearing.** One tap fires pointerdown *and* touchend
+*and* click; without the guard `play()` would run three times, and each run
+resets `audio.volume = 0` and restarts the fade — an audible stutter at the
+very first note. It is released in `play()`'s `.catch`, so a browser that
+refuses the first attempt can still be started by a later gesture.
+
+⚠️ **Shift / Control / Alt / Meta / Tab are excluded.** They are not user
+gestures under the autoplay policy, so acting on one spends the attempt on a
+call the browser will reject. Tab especially — a keyboard guest reaching the
+skip link would otherwise burn the unlock before they ever chose anything.
+
+Unchanged and re-verified: the player's own controls never double as the
+starter (it checks `player.contains(e.target)`, so the ✕ cannot stop and
+instantly restart); `sessionStorage.musicOff` still wins over every gesture;
+listeners are removed only on `playing`.
+
+**2. The open bar is much smaller on phones.**
+
+It was `min(340px, 100vw − edges)` at every width — **333px of a 360px screen,
+92%**. It read as a docked bar across the bottom of the phone rather than a
+floating control. Two tiers now:
+
+| | ≥641px | ≤640px | ≤380px |
+|---|---|---|---|
+| Bar (open) | 340×64 | **248×54** | **224×54** |
+| Play/pause | 40px | 36px | 36px |
+| ✕ | 26px | 24px | 24px |
+| Seek travel | 185px | 115px | 117px |
+| Duration | shown | shown | **hidden** |
+
+Everything scales together — a shorter bar with the desktop 40px button and
+.68rem title just looks cramped. Measured share of viewport: **92% → 62%** at
+360px, **85% → 64%** at 390px.
+
+⚠️ **The collapsed disc stays 46px at every width.** It is the only stop
+control for audio that started on its own (§7 / WCAG 1.4.2) and 46px is already
+close to the 44px touch-target floor.
+
+⚠️ **The ✕ is 24px, not "about 20"** — WCAG 2.1 SC 2.5.8 (Target Size, Minimum)
+is a hard 24×24. Do not shave it to buy bar width.
+
+⚠️ **The ≤380px tier drops the duration, never the elapsed time.** Elapsed is
+the number a guest actually reads; duration is the one the seek bar's own
+geometry already implies. Dropping it is what keeps ~117px of seek travel on a
+320px screen.
+
+**Verified** (headless Chromium, audio element stubbed per the testing note in
+the entry above — the multi-MB mp3 never finishes loading, so `play()` never
+resolves):
+
+- **Starter, 11 probes, each on a fresh page** — because the listeners are
+  removed on `playing` by design, probes sharing a page silently test a page
+  with no starter. Plain click ✔ · nav link ✔ · click swallowed by a
+  capture-phase `stopPropagation` ✔ · synthetic keydown ✔ · real CDP key press
+  ✔ · real CDP touch tap ✔ · real CDP mouse click ✔ · Shift/Tab correctly
+  ignored ✔ · one tap = exactly one `play()` ✔ · slider drag inside the player
+  does not start ✔ · ✕ stops, stays stopped through further clicks and
+  keypresses, and the toggle still restarts it by hand ✔.
+- **Geometry at 13 widths** — 1512/1280/1024/768/641/640/560/500 plus true
+  320/360/375/390/430 in an iframe (`--window-size` clamps at 500px). Breakpoint
+  flips exactly at 640/641 and 380/390. At every width: title inside its row,
+  body/seek/✕ inside the bar, **zero horizontal overflow**, and the tab order
+  is `music-toggle` alone when collapsed, all three controls when open.
+- **Zero JS errors** at every width; **zero mp3 requests** before playback, so
+  `preload="none"` is intact.
+- Rendered and inspected at 360px, 390px and 1280px. Desktop is byte-identical
+  in layout: still 340×64.

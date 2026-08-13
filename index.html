@@ -1949,6 +1949,77 @@
       outline-offset: 1px;
     }
 
+    /* ── phones ──
+       Open, the bar was min(340px, 100vw − edges): 333px of a 360px screen,
+       i.e. it spanned the viewport and read as a dock rather than a floating
+       control. Everything shrinks together — a shorter bar with the old 40px
+       button and .68rem title just looks cramped.
+
+       The COLLAPSED disc is deliberately left at 46px: it is the only stop
+       control, and shrinking it would put it under the 44px touch target. */
+    @media (max-width: 640px) {
+      #music-player.is-open {
+        max-width: min(248px, calc(100vw - 2 * var(--mp-edge)));
+        height: 54px;
+        border-radius: 14px;
+        padding: 0 .35rem 0 .25rem;
+        gap: .3rem;
+      }
+
+      #music-player.is-open #music-toggle {
+        width: 36px;
+        height: 36px;
+      }
+
+      #music-player.is-open #music-toggle .i-play,
+      #music-player.is-open #music-toggle .i-pause {
+        width: 16px;
+        height: 16px;
+      }
+
+      .mp-body {
+        gap: .24rem;
+      }
+
+      .mp-title {
+        font-size: .6rem;
+        letter-spacing: .08em;
+      }
+
+      .music-eq {
+        height: 9px;
+      }
+
+      .mp-time {
+        font-size: .52rem;
+      }
+
+      .mp-row {
+        gap: .3rem;
+      }
+
+      /* 24px is the floor, not a round number — WCAG 2.1 SC 2.5.8 (Target
+         Size, Minimum). Do not shrink this further to buy bar width. */
+      .mp-close {
+        width: 24px;
+        height: 24px;
+        font-size: .72rem;
+      }
+    }
+
+    /* Narrowest phones: the duration is the least useful of the three numbers
+       (the title already names a track the guest can look up), so it goes
+       first and the seek bar keeps its travel. Elapsed time stays. */
+    @media (max-width: 380px) {
+      #music-player.is-open {
+        max-width: min(224px, calc(100vw - 2 * var(--mp-edge)));
+      }
+
+      #mp-dur {
+        display: none;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
 
       /* Freeze the bars at staggered heights — still legible as an
@@ -3758,6 +3829,7 @@
         var FADE_MS = 900;
         var fadeTimer = null;
         var scrubbing = false;      // guards the slider against timeupdate
+        var starting = false;       // an unlock attempt is in flight
 
         // Private browsing can throw on storage access.
         function remember(off) {
@@ -3855,7 +3927,9 @@
           var attempt = audio.play();
           if (attempt && attempt.then) {
             attempt.then(function () { fadeTo(VOLUME); })
-              .catch(function () { paint(false); });   // browser refused; leave the control offering to start
+              // Browser refused: release the guard so the next gesture can try
+              // again, and leave the control offering to start.
+              .catch(function () { starting = false; paint(false); });
           } else {
             fadeTo(VOLUME);
           }
@@ -3891,17 +3965,41 @@
         });
 
         // Browsers block audio until the page has been interacted with, so the
-        // first click anywhere is the earliest legitimate moment to start.
+        // guest's first interaction anywhere on the page is the earliest
+        // legitimate moment to start.
+        //
+        // Bound in the CAPTURE phase, and on every gesture type the autoplay
+        // policy accepts — a `click` listener alone can be swallowed by any
+        // handler on the page calling stopPropagation(), and by taps that
+        // never resolve into a click at all (a drag on the gallery, a swipe in
+        // the lightbox, a scroll that starts on a link). `starting` keeps the
+        // pointerdown/touchend/click burst of one tap to a single attempt.
+        var STARTERS = ['pointerdown', 'touchend', 'click', 'keydown'];
+
         function starter(e) {
-          if (declined || player.contains(e.target)) return;
+          if (declined || starting || !audio.paused) return;
+          // The player speaks for itself — its own controls must not double as
+          // the starter, or the ✕ would stop and immediately restart.
+          if (player.contains(e.target)) return;
+          // Modifier and Tab presses are not gestures; don't spend the attempt.
+          if (e.type === 'keydown' && (e.key === 'Shift' || e.key === 'Control' ||
+            e.key === 'Alt' || e.key === 'Meta' || e.key === 'Tab')) return;
+          starting = true;
           play();
         }
-        document.addEventListener('click', starter);
 
-        // Only stop listening once it is genuinely playing — if the first
-        // attempt is refused, a later click should still be able to start it.
+        function listenForGesture(on) {
+          for (var i = 0; i < STARTERS.length; i++) {
+            document[(on ? 'add' : 'remove') + 'EventListener'](
+              STARTERS[i], starter, { capture: true, passive: true });
+          }
+        }
+        listenForGesture(true);
+
+        // Only stop listening once it is genuinely playing — if an attempt is
+        // refused, a later gesture should still be able to start it.
         audio.addEventListener('playing', function () {
-          document.removeEventListener('click', starter);
+          listenForGesture(false);
         }, { once: true });
 
         paint(false);
