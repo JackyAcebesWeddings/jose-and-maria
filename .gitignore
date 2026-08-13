@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+
+# Photograph ORIGINALS — full-size camera files (~249MB), kept locally as the
+# master copies. The site never references them; it serves the optimised
+# derivatives in assets/photos/, which ARE committed. Keep the originals in the
+# planner's Drive/backup, not in a GitHub Pages repo — Pages would publish them
+# at full size and every clone would carry the weight.
+assets/img/
+
+# Source artwork for the Attire Guide section (3.3MB PNG). The cut-down
+# derivatives in assets/ are what the page loads.
+Red and Gold Floral Wedding Invitation.png
