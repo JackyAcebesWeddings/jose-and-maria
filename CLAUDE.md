@@ -684,3 +684,161 @@ it, and a permanent full-screen layer for a 2560px image is real memory.
 overflow at all of them (the oversized frame is clipped by `#hero`'s
 `overflow: hidden`), zero JS errors, correct keyframe set either side of the
 breakpoint, and the hero rendered at full zoom on both desktop and phone.
+
+### Reception venue confirmed — 2026-08-14
+
+Supplied by the planner. **This closes the longest-standing "To be announced"
+on the page** — the reception venue, address and directions, live since the
+2026-08-12 build.
+
+| Field   | Value                                      |
+|---------|--------------------------------------------|
+| Venue   | Waterfront Cebu City Hotel and Casino      |
+| Address | Salinas Drive, Lahug, Cebu City, 6000 Cebu |
+| Photo   | `assets/waterfront.webp`                   |
+
+Updated in **two** places — the `#details` reception card and the FAQ answer
+"Where will the reception be held?", which still said the venue was being
+finalised. The reception card dropped `is-single` and is now text | photo,
+matching the ceremony card.
+
+⚠️ **Directions use the couple's own Google Maps pin, not a name search.**
+"Waterfront" also matches their **Mactan airport** property, and a name search
+could send a guest to the wrong hotel. If the short link
+(`maps.app.goo.gl/KB8NQFWahnFtew9v9`) ever dies, the pin it resolves to is
+**10.3247129, 123.9047135** — recorded in a comment beside the link.
+
+⚠️ **`assets/waterfront.webp` is 500×333 and too small for its slot** — the
+same problem `ceremony.webp` has. Measured display widths: **662px at 768px
+viewport** (0.76× — genuinely upscaled and soft), 440px on desktop (1.14×, so
+below 1× on any retina screen). **Ask for a re-export at ~1200px wide.**
+Everything else about it is right: WebP, lazy, async decode, explicit
+`width`/`height` so it reserves space and cannot shift layout.
+
+Re-encoded at **q68**, not the usual q80+: the source is an already-lossy
+39KB JPEG, and q84 came out *larger* (41KB) than the original for the same
+pixels. q68 gives 28KB with no visible loss at this size. Check the WebP is
+actually smaller than the source before shipping a re-encode of a JPEG.
+
+`.venue-card.is-single` is now unused — kept, with a note, as the fallback for
+a venue card that has no photograph.
+
+`data.json` still holds `"No Data"` for the reception venue, address and
+map_url. It is auto-generated and was **not** edited; this file is the record.
+
+`waterfront.jpg` (the source) added to `.gitignore` alongside the Attire Guide
+PNG — sources stay out of the published tree.
+
+**Verified:** zero horizontal overflow and zero JS errors at
+360/390/768/1024/1512px · 21 images, 0 broken · both venue cards have a photo ·
+both Get Directions links carry `target="_blank" rel="noopener"` · no
+"still being finalised" text left anywhere · Event Details rendered and
+inspected at 1280px.
+
+### Music: floating disc → full mini player — 2026-08-14
+
+Asked for in two steps: first "show the title as well as the icon", then make it
+a proper music bar. **This supersedes the 2026-08-12 music entry's UI notes**;
+its *behavioural* rules all still hold and are re-verified below.
+
+**Two state classes, both on the `#music-player` container** (they were on
+`#music-toggle` before — update selectors, not just markup):
+
+- `.is-open` — expanded into the bar. Set on first successful play, cleared by
+  the ✕. **Deliberately not tied to `paused`**: pausing keeps the bar open so
+  the guest can resume or scrub. Only ✕ folds it away.
+- `.is-playing` — audio actually running; drives the ▶/❚❚ swap and the equaliser.
+
+Collapsed it is the same 46px disc as before; open it is a 278×64 bar holding
+play/pause · equaliser · title · elapsed · seek · duration · dismiss.
+
+⚠️ **The seek control is a real `<input type="range">`.** Dragging, arrow-key
+seeking, and the exposed value all come from the platform. Do not replace it
+with a styled `<div>`.
+
+⚠️ **`aria-valuetext` must be set in `seekToSlider()`, not only in
+`progress()`.** `progress()` runs on `timeupdate`, which does not fire while
+paused — so a keyboard user arrow-seeking a paused track kept hearing the
+position from *before* the seek. Caught by driving a paused arrow-seek; it
+reported `2:21` correctly only after the fix.
+
+⚠️ **`.mp-body` and `.mp-close` use `visibility: hidden`, not just the
+container's `overflow: hidden`.** Clipping alone leaves the slider and the ✕
+**focusable while invisible** — a keyboard user would tab into controls they
+cannot see. Verified: collapsed, the only focusable control is `music-toggle`;
+open, all three are.
+
+⚠️ **`max-width`, never `width`, for the expansion** — `width` cannot transition
+to or from `auto`. The bar is `max-width: min(340px, calc(100vw - 2*edge))` so
+it self-limits on small screens; measured 278×64 and fitting with room to spare
+at 320px.
+
+**The pulse ring is gone.** It was `border-radius: 50%` + `scale(1.28)`, which
+is fine around a 46px disc but throws a huge lopsided halo off a 278px bar — a
+uniform scale moves the long edges much further in px than the short ones. The
+equaliser and the progress fill already say "playing".
+
+**Duration reads `––:––` until metadata loads**, because `preload="none"` is
+kept. That is the deliberate trade: no `preload="metadata"`, so the page still
+issues **zero mp3 requests** until playback starts (re-verified at six widths).
+The couple's track is 4:41; it populates the moment play begins.
+
+**Preserved and re-verified:** starts on the guest's first click anywhere ·
+the click-anywhere starter ignores clicks anywhere inside the player (it checks
+the container now, not just the button) · the guest's choice wins and persists
+via `sessionStorage.musicOff`, set by both pause and ✕ · volume fades 0 → 0.35 ·
+icon swap is class-driven, never the `hidden` attribute · the starter is only
+removed on `playing`, so a refused first attempt can still start later.
+
+⚠️ **Testing note — two harness traps hit in this change:**
+
+1. **CSS transitions do not advance under `--virtual-time-budget`.** A
+   transitioned property reads its *start* value forever, which looks exactly
+   like a broken rule. Confirm the cascade by disabling the transition, then
+   confirm the transition itself exists via `el.getAnimations()` and
+   `.finish()`. Keyframe animations are unaffected.
+2. **The multi-MB mp3 never finishes loading in headless**, so `audio.play()`
+   never resolves. Stub the element instead — `Object.defineProperty` for
+   `duration`/`currentTime`/`paused` plus `play`/`pause` — and drive the state
+   machine directly.
+
+**Verified:** zero horizontal overflow and zero JS errors at
+320/360/390/768/1024/1512px · full state machine driven end to end (collapse →
+metadata → play → timeupdate → 50% seek → pause → resume → dismiss), with the
+tab order, labels, elapsed/duration, fill percentage and `musicOff` checked at
+each step · `preload="none"` and zero mp3 requests intact · rendered and
+inspected at 360px and 1280px.
+
+### Music track replaced — 2026-08-14
+
+The planner swapped the audio file in the working tree and repointed
+`index.html` at it. **Everything above that names `goodness-of-god.mp3` is
+historical** — that file is deleted.
+
+| | Was | Now |
+|---|-----|-----|
+| File | `assets/music/goodness-of-god.mp3` | `assets/music/When God Made You  NewSong and Natalie Grant (Lyrics).mp3` |
+| Size | 4.32MB, 64kbps stereo | **6.45MB, 192kbps stereo** |
+| Length | 9:26 | **4:41** |
+| Shown | Goodness of God | When God Made You by Natalie Grant |
+
+Verified before committing: the file loads, metadata resolves, duration reports
+4:41, and the player shows the new title.
+
+⚠️ **The filename contains two consecutive spaces and parentheses.** It works —
+the browser percent-encodes it to `…When%20God%20Made%20You%20%20NewSong…` and
+it resolved cleanly under test — but it is a fragile production URL. **Worth
+renaming to `when-god-made-you.mp3`** (one edit to the `<audio src>`); left
+as-is only because the planner set it up deliberately and it was not part of the
+request.
+
+⚠️ **It is now the single heaviest asset on the site at 6.45MB**, up from
+4.32MB — it more than doubles the previous re-encode concern. At 192kbps stereo
+for a background loop there is a lot of headroom: mono at 96kbps would land
+around 1.6MB with no audible loss at this use. `preload="none"` still means it
+costs nothing until a guest starts playback.
+
+⚠️ **Credit check:** "When God Made You" is a **NewSong** single featuring
+Natalie Grant — the source filename says "NewSong and Natalie Grant", but the
+displayed title credits only Natalie Grant. Confirm with the couple which they
+want shown.

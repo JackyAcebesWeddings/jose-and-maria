@@ -11,6 +11,7 @@
 # at full size and every clone would carry the weight.
 assets/img/
 
-# Source artwork for the Attire Guide section (3.3MB PNG). The cut-down
-# derivatives in assets/ are what the page loads.
+# Source artwork dropped in the repo root. The optimised derivatives in
+# assets/ are what the page actually loads.
 Red and Gold Floral Wedding Invitation.png
+waterfront.jpg
