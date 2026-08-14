@@ -1353,6 +1353,70 @@
       letter-spacing: .04em;
     }
 
+    /* ── BDO / InstaPay QR ──
+       The frame is deliberately plain white with a gold hairline: the QR's own
+       quiet zone is baked into the image, and anything tinted behind it costs
+       scanning contrast. Do not add a filter, a background tint or a shadow
+       that bleeds inward. */
+    .gift-qr {
+      margin-top: 2rem;
+      padding-top: 1.8rem;
+      border-top: 1px solid var(--gold-line);
+    }
+
+    .gift-qr .label {
+      display: block;
+      font-size: .66rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      margin-bottom: 1.1rem;
+    }
+
+    /* The floor is a scanning requirement, not a taste call. The symbol is 57
+       modules including its quiet zone, and the frame's padding + border take
+       18px, so a 208px frame draws the code itself at 190px — ~3.3px per
+       module, the tightest case on the page and verified to decode. Do not
+       shrink it to buy vertical space. */
+    .qr-frame {
+      width: clamp(208px, 58vw, 248px);
+      margin: 0 auto;
+      padding: .5rem;
+      background: #fff;
+      border: 1px solid var(--gold-line);
+    }
+
+    /* Square, and sized by its own box — the intrinsic 816px would otherwise
+       decide the layout. */
+    .qr-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .qr-name {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--ink);
+      letter-spacing: .04em;
+      margin-top: 1rem;
+    }
+
+    .qr-acct {
+      font-size: .8rem;
+      letter-spacing: .12em;
+      color: var(--ink-soft);
+      margin-top: .15rem;
+    }
+
+    .qr-note {
+      font-size: .78rem;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      max-width: 30rem;
+      margin: .9rem auto 0;
+    }
+
     .copy-btn {
       font-family: var(--font-body);
       font-size: .62rem;
@@ -3216,6 +3280,29 @@
             <span class="label">GCash</span>
             <span class="value" id="gcashNumber">09653196120</span>
             <button type="button" class="copy-btn" id="copyGcash" data-copy="09653196120">Copy</button>
+          </div>
+
+          <!-- BDO / InstaPay QR.
+               The account name and the masked number are real text, not part of
+               the image, so a screen reader and a guest zooming in both get
+               them.
+               ⚠ The QR is an SVG, and must stay one. It carries the exact
+               payload decoded from the card BDO issued (verified byte-identical
+               — see CLAUDE.md), redrawn as vector so it is crisp at any width
+               and any pixel density. The cropped screenshot it replaced failed
+               to decode once the browser resampled it down to phone widths.
+               ⚠ Never put a filter, opacity or non-white ground behind it — a
+               QR needs true black on true white and a clear quiet zone. -->
+          <div class="gift-qr">
+            <span class="label">BDO &middot; InstaPay</span>
+            <figure class="qr-frame">
+              <img src="assets/bdo-qr.svg" width="240" height="240" loading="lazy" decoding="async"
+                alt="InstaPay QR code for the BDO account of MOrozco, ending in 5877">
+            </figure>
+            <p class="qr-name">MOrozco</p>
+            <p class="qr-acct">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;5877</p>
+            <p class="qr-note">Scan with your banking app to send a gift. BDO to BDO transfers are free; fees may
+              apply for transfers from other banks.</p>
           </div>
         </div>
       </div>

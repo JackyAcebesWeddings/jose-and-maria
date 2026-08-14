@@ -992,3 +992,63 @@ was **not** edited; this file is the record.
 no "To be announced" anywhere in the rendered text · all four sections
 (Event Details, Order of the Day, Entourage, Sponsors) rendered and inspected
 at both widths.
+
+### BDO / InstaPay QR added to the Gift Guide — 2026-08-14
+
+The planner supplied the couple's BDO InstaPay card (1146×1695 JPEG) — bank
+logo, account name, masked number, QR and a fee note. **The screenshot is not
+what shipped**, and neither is a crop of it. Only the code itself is on the
+page; the name, mask and fee note are real text in the themed card, the same
+call made for the Attire Guide.
+
+**`assets/bdo-qr.svg` (4KB) is a vector redraw of the couple's own code, not a
+picture of it.** It carries the payload decoded from the bank's card, verified
+**byte-identical — SHA-1 `74d0c7c42dfb…`, 130 chars**. It parses as EMVCo TLV:
+merchant `MOrozco`, country `PH`, currency `608` (PHP), **no tag 54**, so the
+guest enters their own amount.
+
+⚠️ **Why vector — a cropped raster QR does not survive responsive layout.**
+The first attempt shipped an 816px PNG cropped from the card. Decoding it
+straight off the rendered page found it worked at 236px on desktop but
+**failed at 210px, at 194px, and — the tell — also at 390px @2x (386 device
+px)**. The failures are not monotonic in size, because the cause is the
+browser resampling a hard-edged module grid by a non-integer factor. Sizing
+alone cannot fix that. An SVG has no resampling step at all.
+
+⚠️ **Test a QR by decoding the rendered page, never by looking at it.** A
+blurred QR looks perfect to the eye at every one of those sizes.
+
+**ECC M, version 8 — 57 modules including the quiet zone.** The level is a real
+trade-off and worth understanding before changing it: this payload needs
+version 6 at ECC L (49 modules), 8 at M (57), 9 at Q (61), 11 at H (69). Higher
+correction means *more, finer* modules in the same box, so H is the worst
+choice for a small on-screen code, not the safest. M is the balance point.
+The bank's own card is 45 modules, i.e. version 7 at ECC L.
+
+⚠️ **`.qr-frame`'s `clamp(208px, 58vw, 248px)` floor is a scanning requirement.**
+57 modules across 208px is ~3.6px per module on the narrowest phone. Do not
+shrink it to buy vertical space.
+
+⚠️ **Never put a filter, opacity, background tint or inward-bleeding shadow on
+the QR.** It needs true black on true white plus its quiet zone (`border=4`,
+the spec minimum, is baked into the SVG). The frame is `#fff` rather than
+`--cream` for exactly this reason — it is the one element on the page that is
+not free to be themed.
+
+⚠️ **OpenCV's `QRCodeDetector` fails on the bank's original — untouched.** That
+is the detector, not the image; the InstaPay logo sitting in the middle defeats
+it. `zxing-cpp` (pip, no system deps) reads it. Do not conclude an image is
+broken because cv2 returned nothing.
+
+**The InstaPay logo in the middle of the bank's code is deliberately not
+reproduced.** It only survives on their card because error correction covers
+it; the "BDO · InstaPay" label above the code says the same thing in text and
+leaves the symbol undamaged.
+
+`data.json` → `registry` still holds only the GCash number; the QR is not in
+it. `data.json` is auto-generated and was **not** edited.
+
+⚠️ **This is a live payment endpoint on a public page.** It is the couple's own
+gift QR and being scannable by guests is the whole point, but GitHub Pages
+publishes it permanently and it is trivially copyable. If the couple ever
+retires that account, the file must come out of the repo, not just off the page.
