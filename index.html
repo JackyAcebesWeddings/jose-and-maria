@@ -1296,6 +1296,156 @@
       background: rgba(28, 43, 57, .05);
     }
 
+    /* ── SPONSORS' ATTIRE ──
+       From the couple's second Attire Guide card (Principal & Secondary
+       Sponsors). Same white/gold-hairline shell as .dress-box so the two
+       panels read as one family. */
+    .sponsor-attire {
+      background: var(--white);
+      border: 1px solid var(--gold-line);
+      padding: clamp(1.5rem, 4vw, 2.2rem);
+      max-width: 780px;
+      margin: 2.4rem auto 0;
+      position: relative;
+      text-align: center;
+    }
+
+    .sponsor-attire::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(107, 16, 32, .07);
+      pointer-events: none;
+    }
+
+    .sa-title {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-style: italic;
+      color: var(--burgundy-deep);
+      margin-bottom: 1rem;
+    }
+
+    /* Scoped to .sa-lead, NOT to `.sponsor-attire p`: an element+class
+       selector is (0,1,1) and would outrank .sa-role / .sa-title / .sa-colour,
+       which are all <p> and all (0,1,0). Same trap as `.field label`. */
+    .sponsor-attire .sa-lead {
+      font-size: .88rem;
+      line-height: 1.95;
+      color: var(--ink-mid);
+      max-width: 42ch;
+      margin: 0 auto;
+    }
+
+    .sa-block+.sa-block {
+      margin-top: 2.2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--gold-line);
+    }
+
+    .sa-group {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: .78rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      margin-bottom: .6rem;
+    }
+
+    .sa-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(1rem, 4vw, 2rem);
+      margin-top: 1.4rem;
+    }
+
+    .sa-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    /* Mirrors the vertical rule the couple's card draws between the two roles. */
+    .sa-card+.sa-card {
+      border-left: 1px solid var(--gold-line);
+    }
+
+    .sa-role {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .sa-card.is-ninang .sa-role {
+      color: var(--rose-ink);
+    }
+
+    .sa-card.is-ninong .sa-role {
+      color: var(--navy);
+    }
+
+    .sa-colour {
+      font-size: .72rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    /* The two looks the card offers for that role, standing on one baseline. */
+    .sa-looks {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: clamp(.4rem, 2vw, 1.1rem);
+      margin-top: .5rem;
+    }
+
+    .sa-look {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      /* Let a wide caption wrap rather than widen the column past the art. */
+      max-width: 8.5rem;
+    }
+
+    /* Figures cut from the card, so transparent — drop-shadow follows the
+       painted edge where box-shadow would draw the bounding rectangle.
+       Height, not width: the eight cutouts differ in width but are drawn to
+       one scale, so a shared height is what lines them up. Capped at 190px:
+       the source figures are only ~320px tall (the card is a 1060px-wide JPEG),
+       so anything taller drops below 1.7× on a retina screen. */
+    .sa-look img {
+      display: block;
+      width: auto;
+      height: clamp(148px, 30vw, 190px);
+      filter: drop-shadow(0 5px 11px rgba(70, 19, 26, .16));
+    }
+
+    .sa-look figcaption {
+      font-size: .62rem;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      line-height: 1.5;
+      color: var(--ink-soft);
+    }
+
+    @media (max-width: 560px) {
+      .sa-grid {
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+      }
+
+      .sa-card+.sa-card {
+        border-left: 0;
+        border-top: 1px solid var(--gold-line);
+        padding-top: 1.4rem;
+      }
+    }
+
     /* ── REGISTRY ── */
     #registry {
       background: var(--rose-pale);
@@ -3256,6 +3406,98 @@
             alt="Illustrated guests in semi formal attire: four couples in long gowns, cocktail dresses and suits, in navy, charcoal, taupe and black.">
           <figcaption>A little inspiration &mdash; semi formal, in our colours</figcaption>
         </figure>
+
+        <!-- Sponsors' attire — the couple's second Attire Guide card, figure
+             for figure. Principal and Secondary are kept as two blocks because
+             the card draws them DIFFERENTLY: the principal ninong's second
+             choice is an open collar, the secondary ninong's is a bow tie, and
+             the two ninang gowns are different dresses. Every garment shown is
+             the card's own artwork and every caption is its own wording.
+             ⚠ The card says "Dusty Pink"; the motif grid above says "Dusty
+             Rose", which is the first card's wording and data.json's. Both are
+             the couple's own words for what looks like the same paint — kept
+             verbatim rather than harmonised. NEEDS CONFIRMATION. -->
+        <div class="sponsor-attire reveal d3">
+          <p class="sa-title">For Our Sponsors</p>
+
+          <div class="sa-block">
+            <h3 class="sa-group">Principal Sponsors</h3>
+            <p class="sa-lead">We would be honoured to have our Principal Sponsors in the following colours.</p>
+            <div class="sa-grid">
+              <div class="sa-card is-ninang">
+                <p class="sa-role">Ninang</p>
+                <p class="sa-colour">Dusty Pink</p>
+                <div class="sa-looks">
+                  <figure class="sa-look">
+                    <img src="assets/sponsor-principal-gown.webp" width="141" height="332" loading="lazy"
+                      decoding="async" alt="Floor length dusty pink gown with a wrapped V-neckline and flutter sleeves.">
+                    <figcaption>Floor length gown</figcaption>
+                  </figure>
+                  <figure class="sa-look">
+                    <img src="assets/sponsor-principal-midi.webp" width="106" height="326" loading="lazy"
+                      decoding="async" alt="Dusty pink midi dress with short sleeves, a belted waist and nude heels.">
+                    <figcaption>Midi dress</figcaption>
+                  </figure>
+                </div>
+              </div>
+              <div class="sa-card is-ninong">
+                <p class="sa-role">Ninong</p>
+                <p class="sa-colour">Navy Blue</p>
+                <div class="sa-looks">
+                  <figure class="sa-look">
+                    <img src="assets/sponsor-principal-choice1.webp" width="106" height="325" loading="lazy"
+                      decoding="async" alt="Navy blue suit worn with a white shirt, navy tie and pocket square.">
+                    <figcaption>Choice 1</figcaption>
+                  </figure>
+                  <figure class="sa-look">
+                    <img src="assets/sponsor-principal-choice2.webp" width="106" height="327" loading="lazy"
+                      decoding="async" alt="Navy blue suit worn with an open-collar white shirt and no tie.">
+                    <figcaption>Choice 2</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sa-block">
+            <h3 class="sa-group">Secondary Sponsors</h3>
+            <p class="sa-lead">We would be honoured to have our Secondary Sponsors in the following colours.</p>
+            <div class="sa-grid">
+              <div class="sa-card is-ninang">
+                <p class="sa-role">Ninang</p>
+                <p class="sa-colour">Dusty Pink</p>
+                <div class="sa-looks">
+                  <figure class="sa-look">
+                    <img src="assets/sponsor-secondary-gown.webp" width="130" height="317" loading="lazy"
+                      decoding="async" alt="Floor length dusty pink wrap gown with puff sleeves and a tied waist.">
+                    <figcaption>Floor length gown</figcaption>
+                  </figure>
+                  <figure class="sa-look">
+                    <img src="assets/sponsor-secondary-midi.webp" width="101" height="315" loading="lazy"
+                      decoding="async" alt="Dusty pink midi dress with puff sleeves and a full skirt.">
+                    <figcaption>Midi dress</figcaption>
+                  </figure>
+                </div>
+              </div>
+              <div class="sa-card is-ninong">
+                <p class="sa-role">Ninong</p>
+                <p class="sa-colour">Navy Blue</p>
+                <div class="sa-looks">
+                  <figure class="sa-look">
+                    <img src="assets/sponsor-secondary-choice1.webp" width="100" height="318" loading="lazy"
+                      decoding="async" alt="Navy blue suit worn with a white shirt, navy tie and pocket square.">
+                    <figcaption>Choice 1</figcaption>
+                  </figure>
+                  <figure class="sa-look">
+                    <img src="assets/sponsor-secondary-choice2.webp" width="99" height="321" loading="lazy"
+                      decoding="async" alt="Navy blue suit worn with a black bow tie and pocket square.">
+                    <figcaption>Choice 2</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -3301,8 +3543,6 @@
             </figure>
             <p class="qr-name">MOrozco</p>
             <p class="qr-acct">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;5877</p>
-            <p class="qr-note">Scan with your banking app to send a gift. BDO to BDO transfers are free; fees may
-              apply for transfers from other banks.</p>
           </div>
         </div>
       </div>
@@ -3344,6 +3584,10 @@
               <p>We kindly ask our guests to avoid wearing striped patterns. This will help us keep the overall look of
                 our celebration beautiful and cohesive. You&rsquo;ll find our colour swatches, and a little attire
                 inspiration, in the <a href="#attire">Dress Code</a> section.
+              </p>
+              <p>Our <strong>Principal</strong> and <strong>Secondary Sponsors</strong> have colours of their own
+                &mdash; dusty pink for our ninangs and navy blue for our ninongs. The details are in the
+                <a href="#attire">Dress Code</a> section too.
               </p>
             </div>
           </details>

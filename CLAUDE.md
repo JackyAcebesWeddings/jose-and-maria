@@ -1052,3 +1052,106 @@ it. `data.json` is auto-generated and was **not** edited.
 gift QR and being scannable by guests is the whole point, but GitHub Pages
 publishes it permanently and it is trivially copyable. If the couple ever
 retires that account, the file must come out of the repo, not just off the page.
+
+### Sponsors' attire added to Dress Code — 2026-08-14
+
+The planner supplied a **second Attire Guide card** — the one addressed to the
+**Principal and Secondary Sponsors** — as `attire-principal.jpg` (1060×1484) in
+the repo root. Its content is now a `.sponsor-attire` panel at the foot of
+`#attire`, below the semi-formal box and the general illustration strip.
+
+**The card's own figures are on the page, not colour swatches.** A first pass
+used the existing motif brushstrokes as stand-ins; the planner asked for the
+outfits instead, so the eight figures were cut out of the card:
+
+| | Ninang · Dusty Pink | Ninong · Navy Blue |
+|---|---|---|
+| Principal | floor length gown · midi dress | choice 1 (necktie) · choice 2 (open collar) |
+| Secondary | floor length gown · midi dress | choice 1 (necktie) · choice 2 (bow tie) |
+
+⚠️ **Principal and Secondary are two separate blocks because the card draws
+them differently** — the ninong's second choice is an open collar in one and a
+bow tie in the other, and the two gowns are different dresses. Do not "simplify"
+them into one block; the colours match but the artwork does not.
+
+**Assets — `assets/sponsor-{principal,secondary}-{gown,midi,choice1,choice2}.webp`,
+74KB for all eight**, ~100–141px wide × ~320px tall, all lazy, all with explicit
+`width`/`height`.
+
+**The extractor is committed: `tools/cut-sponsor-figures.py`.** Re-run it if the
+card is re-issued (it reads the gitignored `attire-principal.jpg` from the repo
+root and writes straight into `assets/`). What it does, and why each step exists:
+
+1. Alpha = a soft ramp on RGB distance from the paper white `(250,249,245)`,
+   0 below 20 and 1 above 46 — same recipe as the first card's brushstrokes,
+   and the ramp is what keeps the painted edges feathered.
+2. Segment each band into four by **column gaps** — unlike the brushstrokes,
+   these figures do not touch. Runs narrower than 30px are dropped, which is
+   what discards the card's thin ninang/ninong divider rule.
+3. Trim rows and columns to the **longest contiguous run**, not to the first and
+   last ink. The card's own captions ("DUSTY PINK" above, "FLOOR LENGTH GOWN"
+   below) sit a few pixels outside each figure and are short runs, so this
+   drops them; taking min/max instead pulls them into every crop.
+4. Keep only the largest connected component (after a 1px dilation, so an
+   antialiased gap cannot split one figure in two).
+
+⚠️ **The secondary ninang needs two extra passes and is special-cased.** The
+card's bottom-left flowers are painted **over** her skirt, so they arrive as one
+connected blob with her and no amount of labelling separates them. White petals
+and grey-green leaves go by a hue test (keep only where red leads blue by 22+),
+applied to the bottom 40% of that one crop only — **the navy suits would fail
+that test everywhere**, which is why it is not global. A pink-and-gold blossom
+survives the hue test, being the same colour family as the dress, and goes by
+three hand-checked rectangles at the bottom-left corner.
+
+⚠️ **The figures are cutouts, so `filter: drop-shadow()`, never `box-shadow`.**
+Same rule as the brushstrokes.
+
+⚠️ **`.sa-look img` is sized by `height`, not `width`.** The eight cutouts differ
+in width but are drawn to one scale, so a shared height is what puts them on one
+baseline. Capped at **190px**: the source figures are only ~320px tall (the card
+is a 1060px-wide JPEG), so anything larger drops below 1.7× on a retina screen.
+Ask for a higher-resolution card if they should ever be bigger.
+
+⚠️ **The panel's body-text rule is scoped as `.sponsor-attire .sa-lead`, not
+`.sponsor-attire p`.** `.sa-role`, `.sa-title` and `.sa-colour` are all `<p>` with
+a single class — (0,1,0) — and an element+class selector is (0,1,1), so the
+generic rule would silently override every one of them. Same trap as the
+`.field label` / `.radio-opt` bug in the RSVP entry above.
+
+⚠️ **Wording: the card says "Dusty Pink"; the motif grid directly above says
+"Dusty Rose"** — the first card's wording, and `data.json`'s. Both are the
+couple's own words for what looks like the same paint. Kept verbatim rather than
+harmonised, and flagged `NEEDS CONFIRMATION` in the markup, but a guest does now
+see one colour under two names within the same section. Worth asking.
+
+Everything else is the card's own: "Ninang", "Ninong", "Floor length gown",
+"Midi dress", "Choice 1", "Choice 2", and the "We would be honoured…" sentences.
+Only the `alt` text is ours, and it describes only what each figure wears.
+
+**Also updated:** the FAQ answer *"What should we wear?"* gained a second
+paragraph pointing sponsors at their own colours. `attire-principal.jpg` added
+to `.gitignore` alongside the other source artwork.
+
+`.sponsor-attire` clones `.dress-box`'s shell (white ground, gold hairline, inset
+second hairline) so the two panels read as one family, at `max-width: 780px`
+rather than 700px to give four figures room. The `.sa-card + .sa-card` left
+border mirrors the card's vertical rule and flips to a top border under 560px,
+where the grid goes single-column.
+
+**Not touched:** the Gift Guide / BDO block, per the planner's instruction.
+
+**Verified:** zero horizontal overflow and zero JS errors at
+320/360/390/560/561/768/1024/1512px · all eight figures load at every width ·
+one shared image height and one shared baseline per row at every width · the
+single-column breakpoint flips exactly at 560/561 · every cutout inspected at 3×
+on a contrasting ground before shipping · Dress Code rendered and inspected at
+390px and 1280px.
+
+⚠️ **Testing note:** the Bash sandbox blocks network, and the Google Fonts
+`<link>` then stalls **DOMContentLoaded**, so `page.goto` times out at 30s and
+looks like a broken page. Run headless Chrome with the sandbox disabled.
+Contradicting the 2026-08-14 note above: Puppeteer's **`setViewport` is not
+subject to the 500px `--window-size` clamp** — `setViewport({width: 360})` gives
+a true 360px layout viewport (`innerWidth === 360`), so the iframe trick is only
+needed when driving Chrome by command-line flags.
