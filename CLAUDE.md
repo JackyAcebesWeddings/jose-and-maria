@@ -932,3 +932,63 @@ resolves):
   `preload="none"` is intact.
 - Rendered and inspected at 360px, 390px and 1280px. Desktop is byte-identical
   in layout: still 340×64.
+
+### Entourage, sponsors, reception hall and running order filled in — 2026-08-14
+
+Supplied by the planner. **This clears every remaining "To be announced" on
+the page** — `grep "To be announced" index.html` now returns nothing.
+
+| Section | Was | Now |
+|---------|-----|-----|
+| Reception venue | Waterfront Cebu City Hotel and Casino | **Jimie Hall**, at that hotel |
+| Reception time | 5:00 PM | **4:00 PM** |
+| Groomsmen | 3 | **4** (+ Jhon Ernest Cotejo) |
+| Flower girls | *TBA* | Alita Cappuccio · Scarlette Maeve Canucot · Athena Camingawan |
+| Ring / Coin / Bible bearer | *TBA* | Ares Mathew Flores · Paul Hanley Guiritan · Aech Ezechias Ardiente |
+| Secondary sponsors | *TBA* | Candle, Veil and Cord couples |
+
+**The hall is the heading, the hotel is the address.** `venue-name` is just
+"Jimie Hall" and the hotel moved to the first line of `.venue-meta`. Putting
+the whole string in the `<h3>` made a heading long enough to wrap to three
+lines on a phone; this keeps the card's shape identical to the Ceremony card
+beside it. The Google Maps pin, its fallback coordinates and the
+wrong-Waterfront warning from the 2026-08-14 entry above are all unchanged —
+Jimie Hall is inside that same property.
+
+**Order of the Day is now 1:30 Ceremony · 3:00 Cocktails · 4:00 Reception ·
+8:00 End of Party.** The 4:00 row was the last `.tba` on the page and the
+5:00 Reception moved up an hour.
+
+⚠️ **The `starts` array was updated with it** — 13:30 / **15:00** / **16:00** /
+20:00. Per the standing warning in the 2026-08-12 entry it is matched to
+`#tlList` rows *by position*, so the day-of "Up next" badge lands on the wrong
+item if the two drift. Re-verified at 14:00 / 15:30 / 17:00 / 21:00 PHT.
+
+**Reception time appears in two places** and both were changed: the `#details`
+card and the FAQ answer "Where will the reception be held?", which also names
+Jimie Hall now.
+
+**Multi-name cards use `<br>`, not a list** — `.card-person` is a single
+display-face `<p>` at line-height 1.5, and three flower girls read as one
+block. The `.card` grid stretches, so the taller Flower Girls card sets the row
+height and its neighbours match it (measured 160px against 104px siblings).
+
+⚠️ **The sponsor couples are the exception: no `<br>`, and `&amp;&nbsp;`
+instead of a plain `&amp;`.** A hard break after the ampersand stranded it on a
+line of its own — "Mr. Monching Macalolooy" / "&" / "Ms. Diana Lariosa", three
+lines where the neighbouring cards had two. Letting the text wrap to the card's
+own width and binding the `&` to the name that *follows* it puts the break
+before the ampersand instead, so all three cards land on two lines with the `&`
+leading the second. Do not reintroduce the `<br>`.
+
+⚠️ **`.tba` and `#timeline .tba` are now dead CSS.** They are deliberately
+kept: the build brief's rule is to render missing values as "To be announced",
+so the next unfilled field needs them back. Do not strip them as unused.
+
+`data.json` still holds `"No Data"` for all of this. It is auto-generated and
+was **not** edited; this file is the record.
+
+**Verified:** zero horizontal overflow and zero JS errors at 390px and 1280px ·
+no "To be announced" anywhere in the rendered text · all four sections
+(Event Details, Order of the Day, Entourage, Sponsors) rendered and inspected
+at both widths.
