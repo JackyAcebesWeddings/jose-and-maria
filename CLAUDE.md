@@ -1187,3 +1187,37 @@ heights — nothing is misaligned and no row pairing breaks.
 **The planner confirmed the uneven columns are fine** and said the remaining
 bridesmaids are coming. So do not "balance" this by padding, re-splitting or
 re-ordering the lists — it resolves itself when those names arrive.
+
+### Bridesmaids & Groomsmen stay two-up on phones — 2026-08-15
+
+Asked for: match the desktop side-by-side layout on mobile instead of stacking.
+
+`.ent-cols` was `repeat(auto-fit, minmax(240px, 1fr))`, which collapsed to a
+single column below ~500px — two columns of 240px plus the gutter simply did
+not fit. It is now a plain `1fr 1fr`, so the pairing holds at every width.
+
+**The grid change alone is not enough** — half a 360px phone is ~160px per
+column, and "Kurt Vincent Rodriguez" does not fit there at the desktop
+1.05rem. Two tiers bring the type and the gutter down with the columns:
+
+| | ≥561px | ≤560px | ≤400px |
+|---|---|---|---|
+| Name | 1.05rem | .92rem | **.85rem** |
+| Column label | 1.2rem | 1.05rem | 1.05rem |
+| Gutter | up to 2.5rem | .75rem | **.55rem** |
+| Row padding | .6rem .5rem | .5rem .2rem | .45rem .1rem |
+
+⚠️ **Row padding is trimmed vertically but kept horizontally.** Zeroing the
+side padding lets a long name run to the very edge of its column and touch the
+neighbouring rule.
+
+⚠️ **The real test is "does any name wrap", not "does it look narrow".** The
+check measures each `li` against one line-height plus its padding and lists any
+row that exceeds it. Verified **zero wrapped names at all nine widths** —
+1280/768/560/500 direct, and true 430/390/375/360/320 in an iframe
+(`--window-size` clamps at 500px). Columns are side by side and non-overlapping
+at every one, with zero horizontal overflow and zero JS errors.
+
+At 320px the columns are 140px each — that is the floor. **A name longer than
+about 22 characters will wrap there**, which is survivable (it centres on two
+lines) but worth knowing when the remaining bridesmaids arrive.

@@ -1089,9 +1089,14 @@
       line-height: 1.5;
     }
 
+    /* Two columns at EVERY width, phones included. This was
+       `repeat(auto-fit, minmax(240px, 1fr))`, which collapsed to a single
+       column below ~500px and stacked Bridesmaids above Groomsmen — the two
+       lists are a pair and read better side by side. The mobile tier further
+       down trims the type so the longest names still fit on one line. */
     .ent-cols {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: clamp(1.2rem, 4vw, 2.5rem);
     }
 
@@ -2882,7 +2887,38 @@
       }
     }
 
+    /* ── Bridesmaids & Groomsmen stay two-up on phones ──
+       Half a phone's width per column is tight for a name like "Kurt Vincent
+       Rodriguez", so the type and the gutter both come down. The row padding
+       is trimmed vertically but kept horizontally, or a wrapped name would
+       touch its neighbour's rule. */
+    @media (max-width: 560px) {
+      .ent-cols {
+        gap: .75rem;
+      }
+
+      .ent-col-label {
+        font-size: 1.05rem;
+        margin-bottom: .5rem;
+      }
+
+      .ent-list li {
+        font-size: .92rem;
+        padding: .5rem .2rem;
+        line-height: 1.35;
+      }
+    }
+
     @media (max-width: 400px) {
+      .ent-cols {
+        gap: .55rem;
+      }
+
+      .ent-list li {
+        font-size: .85rem;
+        padding: .45rem .1rem;
+      }
+
       .cd-item {
         padding: .7rem .5rem;
       }
