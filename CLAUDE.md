@@ -1175,10 +1175,10 @@ in `.sponsor-list` and the secondary-sponsor cards, where they mark married
 couples, and that distinction is worth keeping. Restore them only if every
 name in both columns gets one.
 
-⚠️ **"Kurt Vincet Rodriguez" is entered exactly as supplied.** It looks like a
-typo for "Vincent" but a guest's name is not ours to correct — **confirm with
-the planner.** Same for "Leo J Cabellon II", which has no full stop after the
-J; left as sent.
+**Both queried spellings were put to the planner and answered (2026-08-15):**
+"Vincet" → **"Kurt Vincent Rodriguez"**, corrected; **"Leo J Cabellon II"**
+stays as sent, with no full stop after the J — that is deliberate, not an
+oversight, so leave it alone.
 
 **Bridesmaids and Groomsmen are now 4 against 7.** `.ent-cols` is two
 independent lists, not a paired grid, so the columns simply end at different
