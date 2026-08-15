@@ -1155,3 +1155,35 @@ Contradicting the 2026-08-14 note above: Puppeteer's **`setViewport` is not
 subject to the 500px `--window-size` clamp** — `setViewport({width: 360})` gives
 a true 360px layout viewport (`innerWidth === 360`), so the iframe trick is only
 needed when driving Chrome by command-line flags.
+
+### More sponsors and groomsmen — 2026-08-15
+
+Planner top-up on the 2026-08-14 entourage entry.
+
+| List | Was | Now |
+|------|-----|-----|
+| Principal Sponsors | 5 entries | **6** (+ Mr. Gerardo Fermano & Mrs. Charo Fermano) |
+| Groomsmen | 4 | **7** (+ Kurt Vincet Rodriguez, Leo J Cabellon II, Kenno Joshua Gomez) |
+
+The new couple is inserted **before** the two solo Ninangs, so the paired
+sponsors stay grouped together and the list does not read as alternating.
+
+**Honorifics dropped from the three new groomsmen.** The planner sent them as
+"Mr. Kurt Vincet Rodriguez" etc., but no other name in `.ent-list` carries a
+title — not the four existing groomsmen, not the bridesmaids. Titles are used
+in `.sponsor-list` and the secondary-sponsor cards, where they mark married
+couples, and that distinction is worth keeping. Restore them only if every
+name in both columns gets one.
+
+⚠️ **"Kurt Vincet Rodriguez" is entered exactly as supplied.** It looks like a
+typo for "Vincent" but a guest's name is not ours to correct — **confirm with
+the planner.** Same for "Leo J Cabellon II", which has no full stop after the
+J; left as sent.
+
+**Bridesmaids and Groomsmen are now 4 against 7.** `.ent-cols` is two
+independent lists, not a paired grid, so the columns simply end at different
+heights — nothing is misaligned and no row pairing breaks.
+
+**The planner confirmed the uneven columns are fine** and said the remaining
+bridesmaids are coming. So do not "balance" this by padding, re-splitting or
+re-ordering the lists — it resolves itself when those names arrive.
