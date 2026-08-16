@@ -133,6 +133,30 @@
       outline-offset: 3px;
     }
 
+    /* The nuptials line sits between the section rule and the first block, so
+       it needs to read as a caption to the heading rather than a third title —
+       hence body face and letter-spacing, not the display serif. */
+    .ent-nuptials {
+      text-align: center;
+      font-size: .74rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      margin: -.6rem 0 2.2rem;
+    }
+
+    /* Sized in em and baseline-shifted so it tracks the name it follows.
+       `flex-shrink: 0` because .card-person can be a flex context in future
+       edits and a squashed cross reads as a smudge. */
+    .dec-cross {
+      height: .74em;
+      width: auto;
+      fill: var(--gold-text);
+      margin-left: .34em;
+      vertical-align: -.02em;
+      flex-shrink: 0;
+    }
+
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -3275,6 +3299,35 @@
           <span class="s-tag">Our Beloved</span>
           <h2 class="s-title">The <em>Entourage</em></h2>
           <div class="s-rule"></div>
+        </div>
+
+        <p class="ent-nuptials reveal">Orozco &ndash; Cotejo Nuptials</p>
+
+        <!-- Parents lead the entourage, as they do on the invitation. -->
+        <div class="ent-block">
+          <span class="ent-label">Parents of the Couple</span>
+          <div class="card-grid-2 reveal">
+            <div class="card">
+              <span class="card-role">Parents of the Bride</span>
+              <p class="card-person">
+                Mr. Valeriano Orozco<br>
+                <!-- The cross is drawn, not typed: U+271D and U+2020 both render
+                     as a colour emoji on some platforms, and the dagger is
+                     missing from several serif faces. `.visually-hidden` carries
+                     the meaning for a screen reader, which a glyph alone cannot. -->
+                Mrs. Jessica (Iris) Orozco<svg class="dec-cross" viewBox="0 0 12 16" aria-hidden="true">
+                  <path d="M5 0h2v4h4v2H7v10H5V6H1V4h4V0z" />
+                </svg><span class="visually-hidden"> (deceased)</span>
+              </p>
+            </div>
+            <div class="card">
+              <span class="card-role">Parents of the Groom</span>
+              <p class="card-person">
+                Mr. Julius Cotejo<br>
+                Mrs. Amor Cotejo
+              </p>
+            </div>
+          </div>
         </div>
 
         <!-- Honour roles -->

@@ -1221,3 +1221,47 @@ at every one, with zero horizontal overflow and zero JS errors.
 At 320px the columns are 140px each — that is the floor. **A name longer than
 about 22 characters will wrap there**, which is survivable (it centres on two
 lines) but worth knowing when the remaining bridesmaids arrive.
+
+### Parents of the couple added, plus the nuptials line — 2026-08-15
+
+Supplied by the planner. Parents lead the Entourage, as they do on the
+invitation, so the block sits above the honour roles.
+
+| | |
+|---|---|
+| Nuptials line | "Orozco – Cotejo Nuptials", between the section rule and the first block |
+| Parents of the Bride | Mr. Valeriano Orozco · Mrs. Jessica (Iris) Orozco † |
+| Parents of the Groom | Mr. Julius Cotejo · Mrs. Amor Cotejo |
+
+**Mrs. Jessica (Iris) Orozco is marked with a cross.** The planner asked for
+one; she is the only deceased name on the page.
+
+⚠️ **The cross is a drawn `<svg>`, not a character — do not "simplify" it to
+`✝` or `†`.** U+271D CROSS and U+2020 DAGGER both render as a **colour emoji**
+on several platforms (iOS especially), which would put a cartoon next to a
+deceased parent's name; the dagger is also simply absent from several serif
+faces and would fall back to a mismatched font. The SVG renders identically
+everywhere and takes `--gold-text` like the rest of the accent detail.
+
+⚠️ **The cross carries no meaning for a screen reader**, so a
+`.visually-hidden` "(deceased)" follows it. That class had been listed as dead
+CSS in the 2026-08-12 entry — it is **in use again**, so do not strip it.
+
+**`.dec-cross` is sized in `em`, not px**, so it tracks whatever size
+`.card-person` is at that breakpoint rather than needing its own media query.
+
+**The nuptials line uses the body face, not the display serif** — set between
+the section rule and the first block, a serif line at that size reads as a
+competing third title. Uppercase, letter-spaced and `--gold-text` makes it read
+as a caption to the heading above it.
+
+The block reuses `.card-grid-2` (two cards, `<br>` between the two names),
+matching Flower Girls & Bearers rather than introducing a new component.
+
+`data.json` has no parents field at all — this is planner-supplied content and
+this file is the record.
+
+**Verified:** at 1280/768/500 direct and true 430/390/360/320 in an iframe —
+both cards side by side and equal height, the cross painted and inside the
+card, the hidden "(deceased)" text taking zero layout space, zero horizontal
+overflow, zero JS errors.
