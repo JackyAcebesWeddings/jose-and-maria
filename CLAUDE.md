@@ -1265,3 +1265,24 @@ this file is the record.
 both cards side by side and equal height, the cross painted and inside the
 card, the hidden "(deceased)" text taking zero layout space, zero horizontal
 overflow, zero JS errors.
+
+### Two more bridesmaids — 2026-08-15
+
+Planner top-up: Hannah Vane Camingawan and Gia Mae Camingawan. Bridesmaids
+4 → **6**, against 7 groomsmen, so the two columns are nearly level now.
+
+**Honorifics dropped ("Ms.")**, as with the three groomsmen added earlier the
+same day — no name in `.ent-list` carries a title. See that entry for why.
+
+**Verified at nine widths** — 1280/768/560/500 direct and true
+430/390/375/360/320 in an iframe. Columns side by side, non-overlapping, zero
+horizontal overflow, zero JS errors at every one.
+
+⚠️ **"Hannah Vane Camingawan" (22 characters) wraps to two lines at 320px —
+and only at 320px.** This is exactly the threshold predicted in the
+two-column entry above, now measured: the row goes 34px → 52px where the
+columns are 140px each. **Left as-is deliberately.** It centres on two lines
+and stays legible; the alternative is dropping the whole list below .85rem,
+which costs legibility for every small-phone guest to tidy one name on a
+viewport almost nobody still uses (iPhone SE 1st gen). It fits on one line at
+360px and above.
