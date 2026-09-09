@@ -1286,3 +1286,18 @@ and stays legible; the alternative is dropping the whole list below .85rem,
 which costs legibility for every small-phone guest to tidy one name on a
 viewport almost nobody still uses (iPhone SE 1st gen). It fits on one line at
 360px and above.
+
+### Candle sponsor replaced — 2026-09-09
+
+Planner change to the 2026-08-14 secondary-sponsor entry.
+
+| Role | Was | Now |
+|------|-----|-----|
+| Candle | Mr. Cevier Manaba & Mrs. Irene Manaba | **Mr. Ernesto (Kim) Cotejo & Mrs. Joanne Cotejo** |
+
+Veil and Cord are untouched.
+
+**Kept the `&amp;&nbsp;` binding and no `<br>`** — see the 2026-08-14 entry for
+why. The replacement is 44 characters against the old 37, one longer than the
+Veil couple that forced that fix in the first place, so the ampersand-orphan
+risk is higher here, not lower. Do not "tidy" it back to a plain `&amp;`.
