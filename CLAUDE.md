@@ -1301,3 +1301,11 @@ Veil and Cord are untouched.
 why. The replacement is 44 characters against the old 37, one longer than the
 Veil couple that forced that fix in the first place, so the ampersand-orphan
 risk is higher here, not lower. Do not "tidy" it back to a plain `&amp;`.
+
+### Principal sponsor spelling corrected — 2026-10-17
+
+Planner correction: **"Mr. Lorence Rivera" → "Mr. Loren Rivera"** (with
+Mrs. Arlene Rivera, unchanged). The planner had sent the wrong spelling
+originally. Only `index.html` was changed; `data.json` still reads "Lorence"
+because it is auto-generated and was **not** edited — this file is the record.
+If the couple re-submits the wizard, check this name again.
