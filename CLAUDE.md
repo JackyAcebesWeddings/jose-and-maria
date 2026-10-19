@@ -1309,3 +1309,11 @@ Mrs. Arlene Rivera, unchanged). The planner had sent the wrong spelling
 originally. Only `index.html` was changed; `data.json` still reads "Lorence"
 because it is auto-generated and was **not** edited — this file is the record.
 If the couple re-submits the wizard, check this name again.
+
+### Principal sponsor added — 2026-10-19
+
+Planner top-up: **Mr. Nolan S. Baltar & Mrs. Marissa C. Baltar**. Principal
+Sponsors 6 → **7** entries. Inserted after the Fermano couple, **before** the
+two solo Ninangs, so the paired sponsors stay grouped (same rule as the
+2026-08-15 entry). The middle initials are kept exactly as the planner sent
+them, even though no other sponsor carries one. `data.json` was **not** edited.
